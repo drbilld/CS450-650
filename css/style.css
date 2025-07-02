@@ -1,0 +1,23 @@
+:root {
+  --vh: 1vh;
+  --header-height: 3.75rem;
+  --main-height: calc( calc(var(--vh, 1vh) * 100) - 100px); }
+  @media (max-width: 640px) {
+    :root {
+      --header-height: 3rem;
+      --main-height: calc( calc(var(--vh, 1vh) * 100) - 88px); } }
+
+/*-----TYPOGRAPHY-----*/
+.content h4 {
+  color: #5f5f5f; }
+
+ol ol li {
+  list-style-type: lower-alpha; }
+
+/*-----LAYOUT-----*/
+.content img {
+  display: block;
+  margin-block: 0.5rem;
+  width: Min(700px, 100%); }
+
+/*-----INPUT-----*/
