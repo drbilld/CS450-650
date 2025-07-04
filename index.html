@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html lang="en" class="intro-visible">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta Cache-Control="must-revalidate">
+    <title>Web Application Security</title>
+    <link rel="stylesheet" href="css/lilkev.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+    <div id="preloader">        
+        <div id="preloader-text">Loading Web Application Security</div>
+        <div class="loader"><span></span><span></span><span></span></div>
+    </div>
+
+    <div id="wrapper">
+        <header id="header">
+            <h1 class="media-title">Web Application Security</h1>
+        	<div class="begin-text">Select the "Begin" button to start.</div>
+        </header>
+        <div id="intro">
+            <div id="intro-image"></div>
+            <button aria-label="Begin">Begin</button>
+        </div>
+        <div id="slides-container">
+            <nav id="toc-wrapper" role="navigation">
+                <button id="toggle-toc" title="Toggle table of contents">
+                    <span></span><span></span><span></span>
+                    <!--<span class="ham-line ham-top"></span>
+                    <span class="ham-line ham-patty"></span>
+                    <span class="ham-line ham-bottom"></span>-->		
+                </button>
+            </nav>
+            <main id="slides-wrapper">
+                <div class="slide" id="slide-1">
+                    <h2>Introduction</h2>
+                    <p>Web technology is typically associated with familiar e-commerce and banking sites, but it reaches well beyond those applications. Web technologies are also the foundation for many internal applications used in both public and private industry. Cloud-based web applications are used by organizations for managing human resources and maintaining client and financial information. Many of the mobile apps we use also rely on web technologies. These web application technologies offer significant benefits in terms of ease of use and development, but they also create security issues.</p>
+                    <p>Unlike traditional internal applications, web applications are typically open to access outside of the organization. This significantly increases the potential for untrusted input, and even untrusted users accessing the application. While web browsers offer easy and near ubiquitous access, they also open the application to several easy methods of attack, including manipulation of user data and control information sent to the application. Web applications often operate outside of protected internal networks, making traditional security measures like firewalls and endpoint security much less useful in protecting and preventing attacks. Because of this, web applications must act as their own security barrier against outside attacks.</p>
+                    <p>This resource will explore the unique security issues involved with web applications and present methods for identifying these vulnerabilities and defending against attacks. <strong>You will be asked to complete web application testing activities on virtual machines and save your results to answer questions in the module quiz</strong>.</p>
+                </div>
+                <div class="slide" id="slide-2">
+                    <h2>Web Application Vulnerabilities</h2>
+                    <p>In order to understand security issues presented by any technology, it’s important to have a common system for categorizing and prioritizing the vulnerabilities. The Open Web Application Security Project (OWASP) is considered the leading authority on web application security and has established a framework for studying web application vulnerabilities. OWASP has assembled an open-source list of over 50 web application vulnerabilities. Some of these vulnerabilities, like buffer overflows, are not unique to web applications. Other vulnerabilities like Missing XML Validation are less common in traditional apps. A complete list of currently-identified web application vulnerabilities is maintained by OWASP at <a href="https://owasp.org/www-community/vulnerabilities/" target="_blank" rel="noopener noreferrer">https://owasp.org/www-community/vulnerabilities/</a>. This list provides detailed explanations and examples of each vulnerability and should be referenced during the development of web applications.</p>
+                    <p>OWASP has further refined this list to their well-known OWASP Top 10 Project (<a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer">https://owasp.org/www-project-top-ten/</a>). OWASP updates this list regularly to stay in synch with updated technologies and application development and deployment techniques. As noted on their site, “The OWASP Top 10 is a standard awareness document for developers and web application security. It represents a broad consensus about the most critical security risks to web applications.” The technical details and code examples provided by the site are targeted to web developers, but it’s important for security professionals to understand the concepts and insure they are included in their organization’s security plans.</p>
+                </div>
+                <div class="slide" id="slide-3">
+                    <h2>OWASP Top 10 Web Application Vulnerabilities</h2>
+                    <p>Following is the most current OWASP Top 10 Web Application Vulnerabilities as of this writing.</p>
+                    <div class="accordion auto-accordion" id="s3-acc">
+                        <h3>Broken Access Control</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Access control enforces policy such that users cannot act outside of their intended permissions. Failures typically lead to unauthorized information disclosure, modification, or destruction of all data or performing a business function outside the user's limits. Common access control vulnerabilities include:</p>
+                            <ul>
+                                <li>Allowing excess privileges by not enforcing the principle of complete mediation.</li>
+                                <li>Allowing the bypass of access control checks by allowing modification to URLs, parameters and POST, PUT and delete requests.</li>
+                                <li>Elevation of privilege by allowing browsing to authenticated pages as an unauthenticated user or to privileged pages as a standard user. This also includes access to admin functions when not logged in as an administrative user.</li>
+                                <li>Lack of protections against metadata manipulation, such as replaying or tampering with a JSON Web Token (JWT) access control token, or a cookie or hidden field manipulated to elevate privileges or abusing JWT invalidation.</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>The core defense practices of Controlling User Access and Controlling User Input are used to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Cryptographic Failures</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>The first thing is to determine the protection needs of data in transit and at rest. Passwords, credit card numbers, health records, personal information, and business secrets require extra protection, mainly if that data falls under privacy laws, for example EU's General Data Protection Regulation (GDPR), or regulations such as financial data protection including PCI Data Security Standard (PCI DSS). All such data is vulnerable if any of the following are true:</p>
+                            <ul>
+                                <li>Is any data transmitted in clear text? Verify all internal traffic, for example between load balancers, web servers, or back-end systems.</li>
+                                <li>Are any old or weak cryptographic algorithms or protocols used either by default or in older code?</li>
+                                <li>Are default crypto keys in use, weak crypto keys generated or re-used, or is proper key management or rotation missing? Are crypto keys checked into source code repositories?</li>
+                                <li>Is encryption not enforced? Are any HTTP headers (browser) security directives or headers missing?</li>
+                                <li>Is the received server certificate and the trust chain properly validated?</li>
+                                <li>Are initialization vectors ignored, reused, or not generated sufficiently secure for the cryptographic mode of operation? Is an insecure mode of operation such as ECB in use? Is encryption used when authenticated encryption is more appropriate?</li>
+                                <li>Are passwords being used as cryptographic keys in absence of a password base key derivation function?</li>
+                                <li>Is randomness used for cryptographic purposes that was not designed to meet cryptographic requirements?</li>
+                                <li>Are deprecated hash functions such as MD5 or SHA1 in use, or are non-cryptographic hash functions used when cryptographic hash functions are needed?</li>
+                                <li>Are deprecated cryptographic padding methods such as PKCS number 1 v1.5 in use?</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>Defending against cryptographic failures is covered under Secure Application Configuration and Management.</p>
+                        </div>
+                        <h3>Injection</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>An application is vulnerable to injection attack when any of the following conditions exist:</p>
+                            <ul>
+                                <li>User-supplied data is not validated, filtered, or sanitized by the application.</li>
+                                <li>Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter.</li>
+                                <li>Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records.</li>
+                                <li>Hostile data is directly used or concatenated. The SQL or command contains the structure and malicious data in dynamic queries, commands, or stored procedures.</li>
+                            </ul>
+                            <p>Some of the more common injections are SQL, NoSQL, OS command, object-relational mapping (ORM), LDAP, and expression language (EL) or object graph navigation library (OGNL) injection. The concept is identical among all interpreters.</p>
+                            <h4>Defense Practices</h4>
+                            <p>Preventing injection is accomplished with defense practices defined under Controlling User Input.</p>
+                        </div>
+                        <h3>Insecure Design</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Insecure design is a broad category representing different weaknesses, expressed as “missing or ineffective control design.” Insecure design is not the source for all other Top 10 risk categories. There is a difference between insecure design and insecure implementation. A secure design can still have implementation defects leading to vulnerabilities that may be exploited. An insecure design cannot be fixed by a perfect implementation as by definition, needed security controls were never created to defend against specific attacks. One of the factors that contribute to insecure design is the lack of business risk profiling inherent in the software or system being developed, and thus the failure to determine what level of security design is required.</p>
+                            <h4>Defense Practices</h4>
+                            <p>Developer controls are the core defense practices to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Security Misconfiguration</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>As noted in insecure design, a well-designed application can still be vulnerable if it is not configured securely. The following ae common configuration issues that make a web application vulnerable:</p>
+                            <ul>
+                                <li>Missing appropriate security hardening across any part of the application stack or improperly configured permissions on cloud services.</li>
+                                <li>Unnecessary features are enabled or installed (for example, unnecessary ports, services, pages, accounts, or privileges).</li>
+                                <li>Default accounts and their passwords are still enabled and unchanged.</li>
+                                <li>For upgraded systems, the latest security features are disabled or not configured securely.</li>
+                                <li>The security settings in the application servers, application frameworks (for example, struts, spring, ASP.NET), libraries, and databases are not set to secure values.</li>
+                                <li>The server does not send security headers or directives, or they are not set to secure values.</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>Application Configuration, Management and Operation controls are used to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Vulnerable and Outdated Components</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Web applications may be vulnerable if any of the following conditions exist:</p>
+                            <ul>
+                                <li>The software is out of date or not updated with current patches.</li>
+                                <li>If you do not know the versions of all components you use (both client-side and server-side). This includes components you directly use as well as nested dependencies.</li>
+                                <li>If the software is vulnerable, unsupported, or out of date. This includes the OS, web/application server, database management system (DBMS), applications, APIs and all components, runtime environments, and libraries.</li>
+                                <li>If you do not scan for vulnerabilities regularly and subscribe to security bulletins related to the components you use.</li>
+                                <li>If you do not fix or upgrade the underlying platform, frameworks, and dependencies in a risk-based, timely fashion. This commonly happens in environments when patching is a monthly or quarterly task under change control, leaving organizations open to days or months of unnecessary exposure to fixed vulnerabilities.</li>
+                                <li>If software developers do not test the compatibility of updated, upgraded, or patched libraries.</li>
+                                <li>If you do not secure the components’ configurations.</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>Secure Application Configuration, Management and Operation controls are used to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Identification and Authentication Failures</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Confirmation of the user's identity, authentication, and session management is critical to protect against unauthorized use of an application and access to user data. Common web application identification and authentication vulnerabilities can be categorized as follows:</p>
+                            <ul>
+                                <li>Weak authentication and password policies – an application is insecure if it:
+                                    <ul>
+                                        <li>Permits default, weak, or wellknown passwords.</li>
+                                        <li>Uses weak or ineffective credential recovery and forgotpassword processes, such as knowledge-based answers, which cannot be made safe.</li>
+                                        <li>Has missing or ineffective multifactor authentication.</li>
+                                    </ul>
+                                </li>
+                                <li>Insecure storage of credentials – an application is vulnerable if it stores default credentials, uses plain text, or weakly hashed password data stores.</li>
+                                <li>Improper session management – an application is insecure if it:
+                                    <ul>
+                                        <li>Exposes session identifier in the URL.</li>
+                                        <li>Reuses session identifier after successful login.</li>
+                                        <li>Does not correctly invalidate Session IDs. User sessions or authentication aren't properly invalidated during logout or a period of inactivity.</li>
+                                    </ul>
+                                </li>
+                                <li>Weak account lockout controls. An application is at risk if it permits brute force or other automated attacks such as credential stuffing, where the attacker has a list of valid usernames and passwords.</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>The core defense practice of Controlling User Access is used to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Software and Data Integrity Failures</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Software and data integrity failures relate to code and infrastructure that does not protect against integrity violations. An example of this is where an application relies upon plugins, libraries, or modules from untrusted sources, repositories, and content delivery networks (CDNs). An insecure component pipeline can introduce the potential for unauthorized access, malicious code, or system compromise. Lastly, many applications now include auto-update functionality, where updates are downloaded without sufficient integrity verification and applied to the previously trusted application. Attackers could potentially upload their own updates to be distributed and run on all installations. Another example is where objects or data are encoded or serialized into a structure that an attacker can see and modify.</p>
+                            <h4>Defense Practices</h4>
+                            <p>Secure Configuration, Management and Operation controls, as well as Controlling User Input are used to defend against these vulnerabilities.</p>
+                        </div>
+                        <h3>Security Logging and Monitoring Failures</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>Logging and monitoring are designed to detect, escalate, and respond to active breaches. Without logging and monitoring, breaches cannot be detected. Insufficient logging, detection, monitoring, and active response occurs any time:</p>
+                            <ul>
+                                <li>Auditable events, such as logins, failed logins, and high-value transactions, are not logged.</li>
+                                <li>Warnings and errors generate no, inadequate, or unclear log messages.</li>
+                                <li>Logs of applications and APIs are not monitored for suspicious activity.</li>
+                                <li>Logs are only stored locally.</li>
+                                <li>Appropriate alerting thresholds and response escalation processes are not in place or effective.</li>
+                                <li>Penetration testing and scans by dynamic application security testing tools (such as OWASP ZAP) do not trigger alerts.</li>
+                                <li>The application cannot detect, escalate, or alert for active attacks in real-time or near real-time.</li>
+                            </ul>
+                            <h4>Defense Practices</h4>
+                            <p>These defense practices are primarily in the Deterring Attackers category.</p>
+                        </div>
+                        <h3>Server-Side Request Forgery (SSRF)</h3>
+                        <div class="content">
+                            <h4>Description</h4>
+                            <p>SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall, VPN, or another type of network access control list (ACL).</p>
+                            <p>As modern web applications provide end-users with convenient features, fetching a URL becomes a common scenario. As a result, the incidence of SSRF is increasing. Also, the severity of SSRF is becoming higher due to cloud services and the complexity of architectures.</p>
+                            <h4>Defense Practices</h4>
+                            <p>Defending against SSRF attacks is accomplished with Application Configuration, Management, and Operation controls.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide" id="slide-4">
+                    <h2>Securing Web Applications – Core Defense Practices</h2>
+                    <p>In order to implement practical web application defense, security professionals need to synthesize the various techniques offered to defend against each type of attack and create a core defense plan. Most of the specific defense techniques for the various vulnerabilities can be grouped into five core practices; developer controls, controlling user access, controlling user input, deterring attackers and secure application configuration, management and operation.</p>
+                    <div class="accordion auto-accordion" data-content-position="top" id="s4-acc">
+                        <h3>Developer Controls</h3>
+                        <div class="content">
+                            <p>This category of defense practices relates to the development of the application. For a web application to be secure, defense practices must be incorporated from the first steps of design and development. Other defense practices cannot typically mitigate issues for a web application that was not developed with security as part of the process. The following are common recommendations for developer controls.</p>
+                            <ul>
+                                <li>Establish and use a secure development lifecycle to evaluate and design security and privacy-related controls</li>
+                                <li>Establish and use a library of secure design patterns or paved road ready to use components</li>
+                                <li>Use threat modeling for critical authentication, access control, business logic, and key flows</li>
+                                <li>Integrate security language and controls into user stories</li>
+                                <li>Integrate plausibility checks at each tier of your application (from frontend to backend)</li>
+                                <li>Write unit and integration tests to validate that all critical flows are resistant to the threat model. Compile use-cases and misuse-cases for each tier of your application.</li>
+                                <li>Segregate tier layers on the system and network layers depending on the exposure and protection needs</li>
+                                <li>Segregate tenants robustly by design throughout all tiers</li>
+                                <li>Limit resource consumption by user or service</li>
+                                <li>Ensure that there is a review process for code and configuration changes to minimize the chance that malicious code or configuration could be introduced into your software pipeline.</li>
+                            </ul>
+                        </div>
+                        <h3>Controlling User Access</h3>
+                        <div class="content">
+                            <p>Web applications must include controls that enforce complete mediation and prevent the bypass of access control measures through manipulation of information passed to the server. This defense task is directly related to the authentication and access control vulnerabilities identified in the OWASP Top 10, and involves three important and interrelated tasks: authentication, session management, and access control.</p>
+                            <h4>Authentication</h4>
+                            <p>The first step in controlling user access is properly authenticating the user. This involves establishing some identity for the system user, validating their identity and securing the tools used to manage their identity. Specific control techniques include:</p>
+                            <ul>
+                                <li>Implement a strong password policy to prevent the creation of weak account passwords. An additional level of security could be added by checking new\changed passwords against the top 10,000 worst passwords list.</li>
+                                <li>Implement multi-factor authentication or move to password-free authentication using a system like FIDO to prevent automated credential stuffing, brute force, and stolen credential reuse attacks.</li>
+                                <li>Do not ship or deploy with any default credentials. Also, avoid storing credentials in the app, and if they must be stored secure them with strong cryptographic methods.</li>
+                                <li>Ensure registration, credential recovery, and API pathways are hardened against account enumeration attacks by using the same messages for all outcomes.</li>
+                                <li>Don't disclose too much information in authentication error messages. For example, an error message should not indicate a valid account, but invalid password. This provides an attacker with valuable information to build an attack.</li>
+                            </ul>
+                            <h4>Session Management</h4>
+                            <p>The second important task in controlling user access is managing the user session. In traditional applications, a user authenticates to the application and works within the code structure of the application. In a web application, users typically authenticate to the application and then use their web browser to move through various web pages. Some of the web pages may contain secure content while others don’t. The application user can also browse to content outside of the application after authenticating.</p>
+                            <p>In order to deal with these issues, web applications have to establish and manage a session for each user. Sessions are used to ensure users have continued access as they navigate pages. Sessions must be implemented in a way that prevents others from performing a man-in-the middle attack to assume another user’s identity. Specific control recommendations include:</p>
+                            <ul>
+                                <li>Limit or increasingly delay failed login attempts but be careful not to create a denial-of-service scenario. Log all failures and alert administrators when credential stuffing, brute force, or other attacks are detected.</li>
+                                <li>Use a server-side, secure, built-in session manager that generates a new random session ID with high entropy after login. Session identifiers should not be in the URL, should be securely stored, and invalidated after logout or idle time, and use absolute timeouts.</li>
+                                <li>Place a logout button on every page and invalidate the session on logout.</li>
+                                <li>Ensure secure use of cookies by using secure cookie attributes (HttpOnly, Secure and SameSite Flags). Set the cookie domain, path and expiration time correctly to prevent reuse.</li>
+                            </ul>
+                            <h4>Access Control</h4>
+                            <p>The third task in controlling user access is ensuring users have access to authorized information and functions, while preventing access to unauthorized content. This is the traditional access control function used in all systems, but applied specifically to web applications and the technologies they use. Specific recommendations include:</p>
+                            <ul>
+                                <li>Except for public resources, deny access by default. All other access decisions will be based on the principle of least privilege.</li>
+                                <li>Always apply the principle of complete mediation, forcing all requests through a common security function or gatekeeper.</li>
+                                <li>Do not allow direct references to files or parameters that can be manipulated to grant excessive access. Access control decisions must be based on the authenticated user identity and trusted server-side information.</li>
+                                <li>Prevent unvalidated forwarding and redirects from occurring by conducting the appropriate access controls checks before sending the user to the given location.</li>
+                                <li>Access controls should enforce record ownership rather than accepting that the user can create, read, update, or delete any record.</li>
+                                <li>Disable web server directory listing and ensure file metadata and backup files are not present within web roots.</li>
+                                <li>Store database credentials and API keys securely. Prevent attackers from bypassing access controls by using exposed API keys.</li>
+                                <li>Log access control failures, alert admins when appropriate (for example, repeated failures).</li>
+                            </ul>
+                        </div>
+                        <h3>Controlling User Input</h3>
+                        <div class="content">
+                            <p>As noted in a previous section covering vulnerabilities, there are a variety of injection attacks that can be used to comprise web applications. The primary goal of controlling user input is preventing the use of input as a method of attack on the web application. The specific control techniques depend on the type of attack, but they can be categorized into general categories.</p>
+                            <h4>Blacklisting</h4>
+                            <p>This involves preventing known bad input. For example, special characters used in XML and common SQL commands should be explicitly blocked. This can prevent some of the most common attacks, but it requires security professionals to attempt to identify all possible input combinations that could be used in attacks.</p>
+                            <h4>Whitelisting</h4>
+                            <p>Developers may not be able to identify all input that might result in an attack. As a result, another strategy is to only allow known good input, or input that the application is expecting and can process correctly. However, web applications often allow open-ended text input. These types of input fields may include many of the same characters and combinations that could be manipulated to create an attack. This issue limits the effectiveness of whitelisting in some applications.</p>
+                            <h4>Sanitation and Safe Data Handling</h4>
+                            <p>Input sanitation techniques involve a combination of blacklisting and whitelisting to attempt to limit what input can reach the processing functions of the application. Developers can make use of a variety of techniques and standardized libraries to filter input. </p>
+                            <p>Because it may not be possible to fully sanitize data, web applications should not assume all input is safe. Other controls should be in place to prevent an attack from unsafe data. For example, access controls should be used by all processes so that if SQL statements are injected, the access controls prevent accessing unauthorized data.</p>
+                            <h4>Detailed Data Validation</h4>
+                            <p>One common attack vector for web applications is to send good and safe data from an unauthorized source. Simple web tools allow attackers to capture, manipulate, and resend data. It’s also possible for a poorly-designed application to allow good input from an unauthorized or insecure area of the application. As a result, developers need to carefully evaluate not just the input, but the full context of the request. Detailed data validation recommendations include:</p>
+                            <ul>
+                                <li>Use a safe API, which avoids using the interpreter entirely, provides a parameterized interface, or migrates to object relational mapping tools (ORMs).</li>
+                                <li>Use positive server-side input validation. This is not a complete defense as many applications require special characters, such as text areas or APIs for mobile applications.</li>
+                                <li>For any residual dynamic queries, escape special characters using the specific escape syntax for that interpreter.</li>
+                                <li>Use LIMIT and other SQL controls within queries to prevent mass disclosure of records in case of SQL injection.</li>
+                                <li>Use Parameterized SQL Queries to prevent injections from unintended sources.</li>
+                                <li>Ensure unsigned or unencrypted serialized data is not sent to untrusted clients without some form of integrity check or digital signature to detect tampering or replay of the serialized data.</li>
+                            </ul>
+                        </div>
+                        <h3>Deterring Attackers</h3>
+                        <div class="content">
+                            <p>All core defense practices are related in some way to deterring attackers. However, this category is focused on identifying and reacting to attacks. The first task is to ensure web applications handle errors correctly. If an action causes an error in any process, the application must exit gracefully and to a safe process. Specifically, an error should not allow an attacker to gain a higher level of privileges or access core systems.</p>
+                            <p>In order to detect attacks, web applications should monitor for errors, log the errors, and provide a mechanism for alerting administrators about significant errors. These controls help to identify potential attacks and quickly respond. Specific defense recommendations include:</p>
+                            <ul>
+                                <li>Ensure all login, access control, and server-side input validation failures can be logged with sufficient user context to identify suspicious or malicious accounts and held for enough time to allow delayed forensic analysis.</li>
+                                <li>Ensure that logs are generated in a format that log management solutions can easily consume.</li>
+                                <li>Ensure log data is encoded correctly to prevent injections or attacks on the logging or monitoring systems.</li>
+                                <li>Ensure high-value transactions have an audit trail with integrity controls to prevent tampering or deletion, such as append-only database tables or similar.</li>
+                                <li>Security teams should establish effective monitoring and alerting such that suspicious activities are detected and responded to quickly.</li>
+                                <li>Error messages should not reveal details about the internal state of the application. For example, file system path and stack information should not be exposed to the user through error messages.</li>
+                            </ul>
+                        </div>
+                        <h3>Secure Application Configuration, Management and Operation</h3>
+                        <div class="content">
+                            <p>The security of a web application requires that it is configured and managed in a secure manner. Misconfiguration or unauthorized access to management functions can open attack vectors for potential hackers. This category of defense practices can be organized into two related tasks; secure application components and configuration, and secure data and cryptography configuration.</p>
+                            <h4>Secure Application Components and Configuration</h4>
+                            <p>This category of defense practices seeks to ensure the application and infrastructure are configured to minimize the attack surface and that all components are secure, trusted and regularly maintained.</p>
+                            <ul>
+                                <li>All components of infrastructure that support the application should be configured according to security best practices and hardening guidelines. In a typical web application this can include routers, firewalls, network switches, operating systems, web servers, application servers, databases, and application frameworks.</li>
+                                <li>To prevent SSRF attacks, segment remote resource access functionality in separate networks to and enforce “deny by default” firewall policies or network access control rules to block all but essential intranet traffic.</li>
+                                <li>Applications and middleware should run with minimal privileges to prevent privilege escalation. Establish a minimal platform without any unnecessary features, component documentation, and samples. Remove or do not install unused features and frameworks.</li>
+                                <li>Establish an on-going task to review and update the configurations appropriate to all security notes, updates, and patches.</li>
+                                <li>For cloud-based applications, create a segmented application architecture that provides effective and secure separation between components or tenants.</li>
+                                <li>Conduct security testing both during and after development to ensure the application meets security standards.</li>
+                                <li>Establish an ongoing, automated process to verify the effectiveness of the configurations and settings in all environments.</li>
+                                <li>Continuously inventory the versions of both client-side and server-side components (for example, frameworks, libraries). Monitor for libraries and components that are unmaintained or do not create security patches for older versions.</li>
+                                <li>Only obtain components from official sources over secure links. Prefer signed packages to reduce the chance of including a modified, malicious component, and use digital signatures to verify the software or data is from the expected source and has not been altered.</li>
+                                <li>Ensure libraries and dependencies are consuming trusted repositories. If you have a higher risk profile, consider hosting an internal known-good repository that is vetted.</li>
+                            </ul>
+                        </div>
+                        <h3>Securing Data and Cryptography Configuration</h3>
+                        <div class="content">
+                            <p>These defense practices are focused on protecting data processed, transmitted, and stored by the web application. Cryptography is the best protection for data, but it must be configured and applied correctly to be effective.</p>
+                            <ul>
+                                <li>Classify data processed, stored, or transmitted by an application. Identify which data is sensitive according to privacy laws, regulatory requirements, or business needs.</li>
+                                <li>Don't store sensitive data unnecessarily. Discard it as soon as possible or use PCI DSS compliant tokenization or even truncation. Data that is not retained cannot be stolen.</li>
+                                <li>Make sure to encrypt all sensitive data at rest.</li>
+                                <li>Ensure up-to-date and strong standard algorithms, protocols, and keys are in place; use proper key management.</li>
+                                <li>Encrypt all data in transit with secure protocols such as TLS with forward secrecy (FS) ciphers, cipher prioritization by the server, and secure parameters. Enforce encryption using directives like HTTP Strict Transport Security (HSTS).</li>
+                                <li>Disable caching for responses that contain sensitive data.</li>
+                                <li>Store passwords using strong adaptive and salted hashing functions with a work factor (delay factor), such as Argon2, scrypt, bcrypt or PBKDF2.</li>
+                                <li>Store database credentials and API keys securely. Avoid storing them statically on disk within a server or a container image.</li>
+                                <li>Always use authenticated encryption instead of just encryption.</li>
+                                <li>Keys should be generated cryptographically randomly and stored in memory as byte arrays. If a password is used, then it must be converted to a key via an appropriate password base key derivation function.</li>
+                                <li>Ensure that cryptographic randomness is used where appropriate, and that it has not been seeded in a predictable way or with low entropy. Most modern APIs do not require the developer to seed the CSPRNG to get security.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide" id="slide-5">
+                    <h2>Web Application Testing</h2>
+                    <p>When testing web applications, it is important to distinguish between vulnerability testing and penetration testing. Vulnerability testing is typically the first step, and it is designed to identify security weakness or potential attack vectors in systems/applications. Penetration testing involves actively exploiting vulnerabilities to observe the results and identify any additional issues that might occur if a vulnerability is exploited. Both types of testing require the permission of the web site/application owner and a full disclosure of the potential risks of testing. For vulnerability testing, the risks may be limited to reduced system performance for users, but penetration testing poses significant risks to the usability and integrity of the system/application. Never conduct tests against web sites or applications without the permission of the site/application owner as it is unethical and potentially illegal.</p>
+                    <div class="accordion auto-accordion" id="s5-acc" data-marker="arrow" data-marker-position="right" data-marker-fill="false">
+                        <h3>What to Test</h3>
+                        <div class="content">
+                            <p>A previous section presented a list of known web application vulnerabilities. That list identifies things that security testers should be looking for. However, that list is primarily intended as a tool to be used by developers to avoid these vulnerabilities when building applications. While a developer can refer to that list while building an app, a security tester needs a plan geared toward searching for where vulnerabilities might exist.</p>
+                            <p>Web application security testing should start with a detailed plan to identify as many potential attack vectors as possible. From there, a checklist should be developed to organize test results and ensure all testing has been performed. A web search will provide many potential testing ideas, but OWASP’s Web Application Security Testing Checklist is an excellent resource to create a testing plan.</p>
+                            <p>The Web Application Security Testing Checklist identifies 13 general testing categories that can be used to build a testing checklist:</p>
+                            <ul>
+                                <li>Information Gathering</li>
+                                <li>Configuration Management</li>
+                                <li>Secure Transmission</li>
+                                <li>Authentication</li>
+                                <li>Session Management</li>
+                                <li>Authorization</li>
+                                <li>Data Validation</li>
+                                <li>Denial of Service</li>
+                                <li>Business Logic</li>
+                                <li>Cryptography</li>
+                                <li>Risky Functionality - File Uploads</li>
+                                <li>Risky Functionality - Card Payment</li>
+                                <li>HTML 5</li>
+                            </ul>
+                            <p>This list highlights the importance of information gathering as the first step of web application testing. It is critical to identify all of the known addresses, URLs, and components of the system before you start testing. The configuration management section also highlights the importance of testing the configuration of the base systems that host the application. Depending on the application that is being tested, this checklist could be expanded to ensure that foundational services like the infrastructure, web server and even the base operating system are running patched and updated software.</p>
+                        </div>
+                        <h3>Testing Tools and Exercises</h3>
+                        <div class="content">
+                            <p>A variety of both commercial and open-source testing tools are available. This section highlights a few of the most popular open-source tools and includes exercises to experiment with some of the tools.</p>
+                            <h4>Vulnerability Scanners</h4>
+                            <p>Automated vulnerability scanners are effective, low-cost tools to check a web application for vulnerabilities. There are several scanners available, and each has its unique focus and capabilities. These scanners identify many important vulnerabilities and should be used early in the testing process to identify known vulnerabilities. However, they should not be considered a complete testing solution. Automated testing can produce false positives, or things that they identify as issues, that are not really security concerns. They can also fail to find vulnerabilities if they don’t match known patterns. As a result, a thorough testing plan would follow automated testing with other detailed testing methods. Some popular web application scanners include:</p>
+                            <ul>
+                                <li>Metasploit WMap – a tool that can identify vulnerabilities and store them for exploitation through the Metasploit framework</li>
+                                <li>Nikto – a scanner focused on web server software and configuration</li>
+                                <li>Wapiti – scans for several common web application vulnerabilities</li>
+                                <li>W3af – an audit framework for testing and securing web applications</li>
+                                <li>Vega – another scanner designed to find common web application vulnerabilities</li>
+                                <li>Zed Application Proxy (ZAP) – a multi-purpose tool to perform both scans and proxy tests</li>
+                            </ul>
+                        </div>
+                        <h3>Nikto Exercise </h3>
+                        <div class="content">
+                            <p>Nikto is an open-source web server scanner that claims to check for over 6,700 known vulnerabilities. This scanner is best at identifying poorly configured, outdated, and unpatched server software and utilities. It is typically included in Kali distributions but can be installed from a git repo if not available. The Nikto home page is here: <a href="https://www.cirt.net/nikto2/" target="_blank" rel="noopener noreferrer">https://www.cirt.net/nikto2/</a></p>
+                            <p>To complete this exercise, you will need a Kali virtual machine and an OWASP Broken Web Application virtual machine. If your instructor has not provided specific information, you can download these virtual machines and install them in VirtualBox.</p>
+                            <ol>
+                                <li>Find the web server IP address and establish contact
+                                    <ol class="alpha">
+                                        <li>Start the OWASPBWA virtual machine and login as user root password owaspbwa</li>
+                                        <li>At the command prompt enter ip addr to find the address of the web server</li>
+                                        <li>Start the Kali virtual machine and login with username kali password kali unless other credentials were provided.</li>
+                                        <li>On the Kali machine, open a terminal window and ping the web server address you found above to confirm your network connection.</li>
+                                        <li>On the Kali machine, open a web browser and navigate to the peruggia website that we will be testing by entering the correct web server address from the previous step in the URL: http://xxx.xxx.xxx.xxx/peruggia/.</li>
+                                    </ol>
+                                </li>
+                                <li>From the terminal window in Kali, scan the peruggia site with Nikto and save the results using the following command:
+                                    <ol class="alpha">
+                                        <li>nikto h http://xxx.xxx.xxx.xxx/peruggia/ -o niktoresults.html</li>
+                                    </ol>
+                                </li>
+                                <li>Review the results of the scan
+                                    <ol class="alpha">
+                                        <li>Note outdated and unpatched software components and configuration issues described in the report. An example of issues with insecure headers is shown in the first figure below. See the summary at the bottom of the report in the second figure below.</li>
+                                    </ol>
+                                </li>
+                                <figure>
+                                    <figcaption>An example of issues with insecure headers.</figcaption>
+                                    <img src="images/fig-1.jpg" alt="A picture of a section of the Nkito report showing several security settings that are note present in the server’s HTTP headers.">
+                                </figure>
+                                <figure>
+                                    <figcaption>See the summary at the bottom of the report.</figcaption>
+                                    <img src="images/fig-2.jpg" alt="A picture of the end of the Nikto report showing the scan summary inclufing the date and time of scan and the number of issues found.">
+                                </figure>
+                            </ol>
+                        </div>
+                        <h3>Zed Attack Proxy (ZAP) Exercise </h3>
+                        <div class="content">
+                            <p>ZAP is an OWASP project that includes an automated scanner and multiple other attack and testing tools. The ZAP scanner is more focused on applications and their structure, and less focused on the underlying server software. ZAP is included in some versions of Kali. If it is not available on your version, you can install it with the following commands:</p>
+                            <ol class="alpha">
+                                <li>sudo apt update</li>
+                                <li>sudo apt install zaproxy</li>
+                            </ol>
+                            <ol>
+                                <li>From the application search bar enter ZAP and start the application.
+                                    <ol class="alpha">
+                                        <li>When a dialog box opens asking if you want to persist the ZAP session choose NO and click Start.</li>
+                                        <li>When the Manage Addons box appears, just close it.</li>
+                                        <li>In the Welcome to OWASP ZAP Window click on Automated Scan.
+                                            <img src="images/fig-3.jpg" alt="A screenshot of the Zed Attack Proxy screen with a red circle around the Automated Scan button.">
+                                        </li>
+                                        <li>Enter the IP address of your OWASP Broken Web Application server and click the attack button. You will see a progress bar indicating the status of the scan. This scan can take up to 30 minutes depending on processor speed.
+                                            <img src="images/fig-4.jpg" alt="A screenshot of the Zed Attack Proxy Automate Scan screen showing the IP address of the server to be scanned.">
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>When the scan completes, click on the Alerts button to see a list of vulnerabilities found by the scan. You should see several items that were previously noted as web application vulnerabilities.
+                                    <ol class="alpha">
+                                        <li>On the main menu bar, select Report, the Generate Report.</li>
+                                    </ol>
+                                </li>
+                                <li>Save the report and briefly review its content. The report sample in the first figure below shows a summary of findings and risk categories. The second figure below lists detailed findings about XSS attacks and SQL injections. Note how these findings differ from the Nikto scan.
+                                    <img src="images/fig-5.jpg" alt="A Picture of Zed Attack Proxy automated scan report table of contents.">
+                                    <img src="images/fig-6.jpg" alt="A Picture of Zed Attack Proxy automated scan report alerts by type.">
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide" id="slide-6">
+                    <h2>Other Testing Tools and Techniques</h2>
+                    <h3>Static Testing</h3>
+                    <p>As noted earlier, automated tools may not present a complete picture of the security of the application. The most thorough type of testing is static testing. Static testing typically involves a detailed review of application code. As with scanners, there are a variety of tools that can be used to scan code for vulnerabilities. While it is often not practical, the best way to fully test a web application is a manual code review. </p>
+                    <h3>Dynamic testing</h3>
+                    <p>Dynamic testing of a web application involves using the application functions in both intended and unintended ways and observing the results. Dynamic testing of web applications typically involves using tools to manipulate the requests that are sent to the application. Some browser development tools and add-ins can provide this function, but the most reliable way is with proxy tools. A proxy tool acts as a man-in-the-middle and intercepts all network traffic to the web application, allowing the application tester to review and modify the traffic. </p>
+                    <p><strong>Exercise: Explore Vulnerabilities, Defenses and Testing Techniques</strong></p>
+                    Several proxy tools are available and each provides a suite of tools that can be used to perform a wide variety of tests. Burp Suite is one popular tool that can be used to perform many types of web application, mobile application, and network tests. Postman is another popular testing tool that can be used to tamper with application requests. The ZAP program from the previous exercise also includes a popular proxy tool. In this exercise you will use ZAP to intercept, review, and tamper with requests to a vulnerable web application.
+                    <p>To complete this exercise, you will need a Kali virtual machine and an OWASP Broken Web Application virtual machine. If your instructor has not provided specific information, you can download these virtual machines and install them in VirtualBox. You should know the IP address of the OWASP Broken Web Application server from previous exercises.</p>
+                    <div class="accordion auto-accordion" id="s6-acc" data-marker="arrow" data-marker-position="right" data-marker-fill="false">
+                        <h3>Part 1 Observe an SQL Injection Vulnerability</h3>
+                        <div class="content">
+                            <ol>
+                                <li>Start a new ZAP session. If ZAP is already open, use the File menu to start a new session without saving.</li>
+                                <li>From the main ZAP menu click on the Firefox browser button as shown in the following figure to open Firefox and configure it to send all traffic through the ZAP proxy. Note, if Firefox is not configured as your default browser you can search for how to configure that in your settings.
+                                    <img src="images/fig-7.jpg" alt="A screenshot of the Zed Attack Proxy with a red circle around the Firefox icon in the menu bar.">
+                                </li>
+                                <li>In Firefox browse to the target vulnerable application by entering the address of the OWASP Broken Web Application server followed by “/mutillidae as shown in the figure below.
+                                    <img src="images/fig-8.jpg" alt="A screenshot of the main Mutillidae screen.">
+                                </li>
+                                <li>From the Mutillidae menu on the left, select OWASP 2013, then A1 Injection, SQLi Extract Data and User Info (SQL) to open the vulnerable application.</li>
+                                <li>When the application opens, enter Name test’ (include the apostrophe as shown). For password enter password. The apostrophe is commonly used as part of an SQL injection attack, so this login will test how SQL injection is handled by the site.</li>
+                                <li>Click the View Account Details button and you will see a screen similar to the one in the figure below:</li>
+                                <figure>
+                                    <img src="images/fig-9.jpg" alt="A screenshot of the Mutillidae SQL Injection screen showing an error message indicating a successful attack and showing the SQL commands used on the server.">
+                                    <figcaption>This indicates the application has at least two of the OWASP Top 10 Vulnerabilities. The error message reveals that an injection vulnerability exists. Specifically, an SQL injection is possible. The error message also shows the full SQL statement that was executed on the server. This gives an attacker everything needed for a successful SQL injection attack and is a clear example of Security Logging and Monitoring Failures.</figcaption>
+                                </figure>
+                            </ol>
+                        </div>
+                        <h3>Part 2 Explore Defense Practices and Proxy Tools</h3>
+                        <div class="content">
+                            <p>When filtering or sanitizing user input, it makes sense to prevent bad input from even reaching the server. As a result, many web applications filter data using scripts in the web browser. In this part of the exercise, you will turn on client-based input filtering and explore how proxy tools can be used to bypass these client-based defense practices.</p>
+                            <ol>
+                                <li>Return to the vulnerable application in Firefox and click the Toggle Security button once to show Security Level 1 (Client-side Security) as shown below.
+                                    <img src="images/fig-10.jpg" alt="A screenshot of the Mutillidae SQL Injection screen showing the security level has been set to 1 Client-side security.">
+                                </li>
+                                <li>Enter Name <strong>test’</strong> and <strong>password</strong>: password again and click on View Account Details. You will see a popup window indicating blacklisting is being used by the application. This is preventing the attack from Part 1 of this exercise.</li>
+                                <li>Return to ZAP and turn on proxy intercept by clicking the round green button shown in the figure below. This will trap every request to the server for this application and allow you to view the packet and tamper with it before it is sent.
+                                    <img src="images/fig-11.jpg" alt="A screenshot of the Zed Attack Proxy application with a red circle around the green ball in the menu bar that is used to start the proxy service.">
+                                </li>
+                                <li>Your goal is to bypass the client-side security to see how the server responds. To do this, you need to capture a valid packet sent to the server. Return to the application in the Firefox browser and enter any NAME and Password that does not contain any special characters. When you click View Account Details nothing happens because ZAP has captured the request.</li>
+                                <li>Return to the ZAP screen to review the request. As shown in the figure below, the header being sent to the server is displayed and the username and password are visible. Click the blue arrow in the ZAP menu to submit the request and continue.
+                                    <img src="images/fig-12.jpg" alt="A screenshot of the Zed Attack Proxy application showing the HTTP header captured from the Firefox login to the Mutillidae application.">
+                                </li>
+                                <li>Return to Firefox to see that the server responded with a bad username or password message instead of the SQL error. This would appear to be a secure message, but another message on the screen indicates 0 records were found for this user, again providing too much information.</li>
+                                <li>Next, you will capture that packet that was allowed through the client side controls and tamper with it. Return to ZAP and click the green capture button again. From the Firefox screen repeat the login process above and capture the packet in ZAP again. Go back to ZAP and modify the username to include an apostrophe as shown in the figure below. Then click the blue arrow on the ZAP menu to submit.
+                                    <img src="images/fig-13.jpg" alt="A screenshot of the Zed Attack Proxy application showing the HTTP header has been captured from Firefox and modified to include the SQL injection username.">
+                                </li>
+                                <li>In Firefox, you will see the application is now showing the insecure error message listing the full SQL command. This demonstrates that you have used a proxy and tampering to bypass client-side security.</li>
+                            </ol>
+                        </div>
+                        <h3>Part 3 Implementing Stronger Defense Practices</h3>
+                        <div class="content">
+                            <p>In the previous step you saw that client-side blacklists can be effective but can be easily bypassed by someone deliberately attacking an application. In this step you will add another layer of server-side security and observe the results.</p>
+                            <ol>
+                                <li>From the web application in Firefox click the Toggle Security button one more time to see Security Level 5 (Server-side Security). This has added an extra layer of input sanitation on the server.</li>
+                                <li>Client-side security is still in place, so repeat step six from Part 2 above to capture a valid packet. This time the form data will appear in the middle window of the ZAP screen as shown in the figure below. Add the apostrophe to the username in this middle window and send the request. When you return to Firefox you will see the application did not accept the apostrophe and displays a system error. Only the invalid name or password error is displayed.
+                                    <img src="images/fig-14.jpg" alt="A screenshot of the Zed Attack Proxy application showing the HTTP header captured from Firefox with the login information entered.">
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <h3>Summary</h3>
+                    <p>In this exercise you used a proxy tool to explore a common application injection vulnerability as well as defense practices to control user input. Proxy tools are very powerful and can be used to perform a variety of in-depth tests on web applications. Security professionals also need to be aware that proxy tools are available to hackers, and applications must be secured against attacks that use these tools.</p>
+                </div>
+                <div class="slide" id="slide-7">
+                    <h2>Further Exploration</h2>
+                    <p>There are several sites available on the internet to explore more about web application security. A popular hands-on exploration is available through a Google code lab named Web Application Exploits and Defenses. This code lab provides the opportunity to work with a vulnerable web application named Gruyere to find vulnerabilities and learn how to defend against them.</p>
+                </div>
+				<div id="restart-container" aria-live="polite">
+				    <div class="inner">
+				        <span>Activity is complete.</span>
+				        <button id="restart-btn">Restart Activity</button>
+				    </div>
+				</div>            </main>
+        </div>
+
+        <nav id="footer" aria-label="Main Navigation">
+        	<div class="inner">
+        		<button id="prev-btn" class="navigation-button" data-goto="prev" title="Return to the previous slide"><span>Prev</span></button>
+        		<button id="next-btn" class="navigation-button" data-goto="next" title="Continue to the next slide"></button>
+        	</div>
+        </nav>
+    </div>
+    
+    <script type="text/javascript" src="js/lilkev.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>
