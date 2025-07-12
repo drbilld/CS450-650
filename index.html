@@ -407,7 +407,8 @@
                                         <li>In the Welcome to OWASP ZAP Window click on Automated Scan.
                                             <img src="images/fig-3.jpg" alt="A screenshot of the Zed Attack Proxy screen with a red circle around the Automated Scan button.">
                                         </li>
-                                        <li>Enter the IP address of your OWASP Broken Web Application server and click the attack button. You will see a progress bar indicating the status of the scan. This scan can take up to 30 minutes depending on processor speed.
+                                        <li>Enter the IP address of your OWASP Broken Web Application server followed by bWAPP (example: 192.168.10.101/bWAPP). This illustrates an important point about automated scans. If you attempt a Zaproxy scan of the entire site at the IP address without specifying the bWAPP directory, it often kills the web server and the scan hangs. As a result, automated scans should be used carefully in a controlled environment. 
+Next, click the attack button and you will see a progress bar indicating the status of the scan. This scan can take up to 30 minutes depending on processor speed.
                                             <img src="images/fig-4.jpg" alt="A screenshot of the Zed Attack Proxy Automate Scan screen showing the IP address of the server to be scanned.">
                                         </li>
                                     </ol>
